@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import Fetch from "../../fetch"
   export default {
     name: 'login',
     data () {
@@ -37,8 +38,14 @@
       }
     },
     methods:{
-      login(){
+      login () {
+        Fetch.login().then(res=>{
+          if(res.code == 0) {
+            console.log("success")
+          }
+        }).catch(err=>{
 
+        })
         this.$router.push('/headtop')
       }
     }
