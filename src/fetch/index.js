@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue'
-import qs from 'qs'
-import {productionUrl, testingUrl} from './url'
+import {productionUrl} from './url'
 // import store from '../pages/index/vuex'
 
 
@@ -42,6 +41,6 @@ export function fetchGet(url, params) {
 export default {
 
   login() {
-    return fetchGet('http://192.168.180.136:8080/TMS-WEB/login/login')
+    return fetchGet('http://localhost:9081/TMS/api/tms/test')
   }
 }
