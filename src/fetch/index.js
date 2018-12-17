@@ -40,7 +40,7 @@ export function fetchGet(url, params) {
 
 export default {
 
-  login() {
-    return fetchGet('http://localhost:9081/TMS/api/tms/test')
+  login(params) {
+    return fetchGet('http://localhost:9081/TMS/api/user/login',params)
   }
 }

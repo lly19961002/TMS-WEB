@@ -9,9 +9,21 @@
         <el-menu  @open="handleOpen" @close="handleClose">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-menu"></i>运单管理</template>
-              <el-menu-item index="1-1">运单受理</el-menu-item>
-              <el-menu-item index="1-2">异常记录</el-menu-item>
-              <el-menu-item index="1-3">异常处理</el-menu-item>
+            <template>
+            <el-tabs tab-position="left" style="height: 200px;">
+              <el-tab-pane label="用户管理"></el-tab-pane>
+              <el-tab-pane label="配置管理">配置管理</el-tab-pane>
+              <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+            </el-tabs>
+            </template>
+              <!--<el-menu-item index="1-1">运单受理</el-menu-item>-->
+              <!--<el-menu-item index="1-2">异常记录</el-menu-item>-->
+              <!--<el-menu-item index="1-3">异常处理</el-menu-item>-->
+            <el-submenu index="1-4" >
+              <template slot="title">客户管理</template>
+              <el-menu-item index="1-4-1">发货人管理</el-menu-item>
+              <el-menu-item index="1-4-2">收货人管理</el-menu-item>
+            </el-submenu>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-menu"></i>核实开单</template>
@@ -39,6 +51,12 @@
             <template slot="title"><i class="el-icon-menu"></i>到货管理</template>
             <el-menu-item index="6-1">异常统计</el-menu-item>
             <el-menu-item index="6-2">签收记录</el-menu-item>
+          </el-submenu>
+          <el-submenu index="7">
+            <template slot="title"><i class="el-icon-menu"></i>系统管理</template>
+            <el-menu-item index="7-1">员工信息</el-menu-item>
+            <el-menu-item index="7-2">系统开户</el-menu-item>
+            <el-menu-item index="7-3">权限管理</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>

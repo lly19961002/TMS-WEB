@@ -1,6 +1,6 @@
 <template>
   <div class="login" >
-    <el-form :model="loginForm" label-width="80px" style="text-align:center" >
+    <el-form :model="form" ref="form" label-width="80px" style="text-align:center" >
       <el-row >
         <el-col :span="24">
           <h1 class="login-title">整车运输管理系统</h1>
@@ -9,18 +9,18 @@
       <el-row>
         <el-col :span="20"  >
           <el-form-item label="用户名" >
-            <el-input type="text" v-model.trim="loginForm.username" @keyup.enter.native="login" placeholder="请输入用户名"></el-input>
+            <el-input type="text" v-model.trim="form.username" @keyup.enter.native="login(form)" placeholder="请输入用户名"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="20"  >
           <el-form-item label="密码">
-            <el-input type="password" @keyup.enter.native="login" v-model.trim="loginForm.password" placeholder="请输入密码" ></el-input>
+            <el-input type="password" @keyup.enter.native="login(form)" v-model.trim="form.password" placeholder="请输入密码" ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-button type="primary" @click="login">登录</el-button>
+      <el-button type="primary" @click="login(form)">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -31,22 +31,24 @@
     name: 'login',
     data () {
       return {
-        loginForm: {
+        form: {
           username: '',
           password: ''
         }
       }
     },
+
     methods:{
-      login () {
-        Fetch.login().then(res=>{
-          if(res.code == 0) {
+      login (params) {
+        Fetch.login(this.form).then(res=>{
+          if(res == success) {
             console.log("success")
+            this.$router.push('/headtop')
           }
         }).catch(err=>{
-
+        alert("登录失败");
         })
-        this.$router.push('/headtop')
+        this.$router.push('/employeeManage')
       }
     }
   }
