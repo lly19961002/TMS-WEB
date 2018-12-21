@@ -37,10 +37,16 @@ export function fetchGet(url, params) {
 }
 
 
-
 export default {
-
   login(params) {
-    return fetchGet('http://localhost:8080/api/user/login',params)
-  }
+    return fetchGet('http://localhost:9082/TMS/api/user/login',params)
+  },
+  getEmployeeInfo(){
+    return fetchGet('http://localhost:9082/TMS/api/sys/getEmployeeInfo')
+  },
+  addEmployeeInfo(params)
+{
+  return fetchGet('http://localhost:9082/TMS/api/sys/addEmployeeInfo',params
+  )
+}
 }
