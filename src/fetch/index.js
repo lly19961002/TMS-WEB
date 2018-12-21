@@ -41,6 +41,6 @@ export function fetchGet(url, params) {
 export default {
 
   login(params) {
-    return fetchGet('http://localhost:8080/api/user/login',params)
+    return fetchGet('http://localhost:9081/TMS_war_exploded/api/user/login',params)
   }
 }
