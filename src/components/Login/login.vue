@@ -4,7 +4,7 @@
     <el-form :model="form" ref="form" label-width="80px" style="text-align:center" :rules="rules" >
       <el-row >
         <el-col :span="24">
-          <h1 class="login-title">整车运输管理系统</h1>
+          <h1 class="login-title">整车营运管理系统</h1>
         </el-col>
       </el-row>
       <el-row>
@@ -51,6 +51,7 @@
         this.$refs['form'].validate(valid => {
           if (valid) {
             Fetch.login(this.form).then(res => {
+              sessionStorage.setItem('userName',this.form.username);
               if (res.code == 0) {
                 this.$router.push('/headtop')
                 for (var i = 0; i < res.content.accessibleUrl.length; i++) {
@@ -59,7 +60,7 @@
                 }
                 sessionStorage.setItem('allMenu', access_url)
                 name=res.content.accessibleUrl[0].employee_name
-                sessionStorage.setItem('userName',name);
+                sessionStorage.setItem('name',name);
               }
               else {
                 this.$notify({

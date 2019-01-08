@@ -37,10 +37,32 @@ export function fetchGet(url, params) {
 }
 
 
-
 export default {
-
   login(params) {
-    return fetchGet('http://localhost:9081/TMS_war_exploded/api/user/login',params)
+    return fetchGet('http://localhost:9081/api/user/login',params)
+  },
+  edit(params) {
+    return fetchPost('http://localhost:9081/api/user/edit',params)
+  },
+  getEmployeeInfo(params){
+    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfo',params)
+  },
+  getEmployeeInfoByName(params){
+    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoByName',params)
+  },
+  getEmployeeInfoByPost(params){
+    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoByPost',params)
+  },
+  getEmployeeInfoById(params){
+    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoById',params)
+  },
+  addEmployeeInfo(params) {
+  return fetchPost('http://localhost:9081/api/sys/addEmployeeInfo',params)
+},
+  updateEmployeeInfo(params) {
+    return fetchPost('http://localhost:9081/api/sys/updateEmployeeInfo',params)
+  },
+  deleteEmployeeInfo(params) {
+    return fetchPost('http://localhost:9081/api/sys/deleteEmployeeInfo',params)
   }
 }

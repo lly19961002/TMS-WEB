@@ -1,11 +1,37 @@
 <template>
   <div style="margin-top: 1px">
-  <el-container style="height: 1000px; border: 1px solid #eee;">
+  <el-container style="height: 900px; border: 1px solid #eee;">
     <el-header style="text-align: left;   height: 80px;">
-      <span style="font-size: 40px ">整车运输管理系统</span>
+      <span style="font-size: 40px ">整车营运管理系统</span>
+      <el-dropdown placement="top-end" style="height:40px" @command="handleCommand">
+      <span style="margin-left:850px;color: white;"> 当前用户：{{username}}<i></i></span>
+      <el-dropdown-menu slot="dropdown"  style="height: 15px;" >
+        <el-dropdown-item command="logout"  >退出</el-dropdown-item>
+        <el-dropdown-item command="edit" >修改密码</el-dropdown-item>
+      </el-dropdown-menu>
+      </el-dropdown>
+      <div>
+      <el-dialog title="账户信息" split-button="true" :visible.sync="dialogFormVisible" style="width: 900px;margin-left:500px;height: 700px" center>
+        <el-form :model="form" ref="form" :rules="rules" >
+          <el-form-item label="姓名" prop="name"  :label-width="formLabelWidth">
+            <el-input v-model="name"  :disabled="true"  autocomplete="off" style="height: 10px"></el-input>
+          </el-form-item>
+          <el-form-item label="用户名" prop="username"  :label-width="formLabelWidth">
+            <el-input v-model="username"  :disabled="true"  autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password"  :label-width="formLabelWidth">
+            <el-input v-model="form.password" type="password" ></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer" style="height: 100px">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="edit(form)">确 定</el-button>
+        </div>
+      </el-dialog>
+      </div>
     </el-header>
     <el-container>
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246);margin-top: 50px">
         <el-menu  @open="handleOpen" @close="handleClose" router>
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-menu"></i>运单管理</template>
@@ -46,10 +72,15 @@
             <el-menu-item index="6-2">签收记录</el-menu-item>
           </el-submenu>
           <el-submenu index="7">
-            <template slot="title"><i class="el-icon-menu"></i>系统管理</template>
-            <el-menu-item v-if="menu.indexOf('/employeeManage')!=-1" index="employeeManage">员工信息</el-menu-item>
-            <el-menu-item index="7-2">系统开户</el-menu-item>
-            <el-menu-item index="7-3">权限管理</el-menu-item>
+          <template slot="title"><i class="el-icon-menu"></i>系统管理</template>
+          <el-menu-item v-if="menu.indexOf('/employeeManage')!=-1" index="employeeManage">员工信息</el-menu-item>
+          <el-menu-item index="7-2">系统开户</el-menu-item>
+          <el-menu-item index="7-3">权限管理</el-menu-item>
+        </el-submenu>
+          <el-submenu index="8">
+            <template slot="title"><i class="el-icon-menu"></i>审批管理</template>
+            <el-menu-item index="8-1">申请审批</el-menu-item>
+            <el-menu-item index="8-2">通知公告</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -83,18 +114,82 @@
 </style>
 
 <script>
+  import Fetch from "../../fetch";
+  import Module from "../../module/prototype"
+
   export default {
     data() {
       return {
         menu:'',
-        username:''
+        name:'',
+        username:'',
+        dialogFormVisible:false,
+        formLabelWidth:'80px',
+        form:{
+          username:'',
+          // name:'',
+          password:''
+        },
+        rules:{
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'}
+          ]
+        }
       }
     },
     created () {
       this.menu = sessionStorage.getItem('allMenu');
       this.username = sessionStorage.getItem('userName');
+      this.name = sessionStorage.getItem('name');
     },
     methods: {
+      edit: function (params) {
+        this.$refs['form'].validate(valid => {
+          if (valid) {
+        this.$confirm('确定修改账户密码', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '放弃修改',
+          type: 'warning'
+        }).then(() => {
+              let params = Module.deepClone(this.form)
+              params.username = sessionStorage.getItem('userName');
+              Fetch.edit(params).then(res => {
+                if (res.code == 0) {
+                  this.$notify({
+                    title: '修改成功',
+                    message: "修改成功",
+                    type: "success"
+                  })
+                } else {
+                  this.$notify({
+                    title: '修改失败',
+                    type: "error"
+                  })
+                }
+              })
+            }).catch(() => {
+          this.$notify({
+            type: 'info',
+            title: '已取消修改'
+          })
+        })
+          }
+          this.dialogFormVisible=false;
+        })
+      },
+      handleCommand ( command) {
+        if(command=='logout'){
+          sessionStorage.removeItem('allMenu');
+          this.$router.push('/login')
+        }
+        else if(command=='edit'){
+          this.dialogFormVisible = true;
+          for(let item in this.form){
+            this.form[item] = ''
+          }
+        }
+
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
