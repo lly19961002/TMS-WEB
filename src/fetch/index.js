@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue'
-import {productionUrl} from './url'
+import {Url} from './url'
 // import store from '../pages/index/vuex'
 
 
@@ -44,25 +44,56 @@ export default {
   edit(params) {
     return fetchPost('http://localhost:9081/api/user/edit',params)
   },
-  getEmployeeInfo(params){
-    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfo',params)
+  getByPeople(params) {
+    return fetchGet('http://localhost:9081/api/user/getByPeople',params)
   },
-  getEmployeeInfoByName(params){
-    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoByName',params)
+  selectByPeople(params) {
+    return fetchGet('http://localhost:9081/api/user/selectByPeople',params)
   },
-  getEmployeeInfoByPost(params){
-    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoByPost',params)
+  deleteByPeople(params) {
+    return fetchPost('http://localhost:9081/api/user/deleteByPeople',params)
   },
-  getEmployeeInfoById(params){
-    return fetchGet('http://localhost:9081/api/sys/getEmployeeInfoById',params)
+  getByPlace(params) {
+    return fetchGet('http://localhost:9081/api/user/getByPlace',params)
   },
-  addEmployeeInfo(params) {
-  return fetchPost('http://localhost:9081/api/sys/addEmployeeInfo',params)
-},
-  updateEmployeeInfo(params) {
-    return fetchPost('http://localhost:9081/api/sys/updateEmployeeInfo',params)
+  selectByPlace(params) {
+    return fetchGet('http://localhost:9081/api/user/selectByPlace',params)
+  } ,
+  getByFamily(params) {
+    return fetchGet('http://localhost:9081/api/user/getByFamily',params)
   },
-  deleteEmployeeInfo(params) {
-    return fetchPost('http://localhost:9081/api/sys/deleteEmployeeInfo',params)
+  selectByFamily(params) {
+    return fetchGet('http://localhost:9081/api/user/selectByFamily',params)
+  },
+  requestGet(url, params) {
+    url=Url+url
+    return new Promise((resolve, reject) => {
+      axios.get(url, {
+        params: params
+      })
+        .then(response => {
+          resolve(response.data);
+        }, err => {
+          reject(err);
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  requestPost(url, params) {
+    url=Url+url
+    return new Promise((resolve, reject) => {
+      axios.post(url, params)
+        .then(response => {
+          resolve(response.data);
+        }, err => {
+          reject(err);
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
   }
+  
 }

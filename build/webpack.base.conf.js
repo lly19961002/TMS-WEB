@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require("webpack")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -11,9 +12,14 @@ function resolve (dir) {
 
 
 module.exports = {
+
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
+  },
+  externals: {
+    'BMap': 'BMap',
+    'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT'
   },
   output: {
     path: config.build.assetsRoot,
@@ -78,5 +84,12 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  // plugins: [
+  //   new webpack.optimize.CommonsChunkPlugin('common.js'),
+  //   new webpack.ProvidePlugin({
+  //     jQuery: "jquery",
+  //     $: "jquery"
+  //   })
+  // ]
 }
